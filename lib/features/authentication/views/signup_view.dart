@@ -1,7 +1,11 @@
+import 'package:chipin_blogpost/features/authentication/controller/auth_controller.dart';
+import 'package:chipin_blogpost/features/authentication/services/oauth_service.dart';
 import 'package:flutter/material.dart';
 
 class SignUpView extends StatelessWidget {
   SignUpView({Key? key});
+
+  final _signUpController = SignUpController();
 
   @override
   Widget build(BuildContext context) {
@@ -12,18 +16,20 @@ class SignUpView extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                // Add your logic here
+                OAuthService.initiateGithubOAuth(context);
               },
               child: const Text('Sign Up with GitHub'),
             ),
             const SizedBox(height: 16),
-            const Divider(thickness: 1),
+            const Text('Or'),
             const SizedBox(height: 16),
             Form(
+              key: _signUpController.formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextFormField(
+                    controller: _signUpController.firstNameController,
                     decoration: const InputDecoration(
                       hintText: 'First Name',
                     ),
@@ -36,6 +42,7 @@ class SignUpView extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
+                    controller: _signUpController.lastNameController,
                     decoration: const InputDecoration(
                       hintText: 'Last Name',
                     ),
@@ -48,6 +55,7 @@ class SignUpView extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
+                    controller: _signUpController.emailController,
                     decoration: const InputDecoration(
                       hintText: 'Email',
                     ),
@@ -64,6 +72,7 @@ class SignUpView extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
+                    controller: _signUpController.usernameController,
                     decoration: const InputDecoration(
                       hintText: 'Username',
                     ),
@@ -76,6 +85,7 @@ class SignUpView extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
+                    controller: _signUpController.passwordController,
                     decoration: const InputDecoration(
                       hintText: 'Password',
                     ),
@@ -89,6 +99,7 @@ class SignUpView extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
+                    controller: _signUpController.confirmPasswordController,
                     decoration: const InputDecoration(
                       hintText: 'Confirm Password',
                     ),
@@ -97,7 +108,7 @@ class SignUpView extends StatelessWidget {
                       if (value == null || value.isEmpty) {
                         return 'Please confirm your password';
                       }
-                      if (value != '') {
+                      if (value != _signUpController.passwordController.text) {
                         return 'Passwords do not match';
                       }
                       return null;
@@ -105,10 +116,13 @@ class SignUpView extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
-                    child: const Text('Sign Up'),
                     onPressed: () async {
-                      // Add your logic here
+                      if (_signUpController.formKey.currentState != null &&
+                          _signUpController.formKey.currentState!.validate()) {
+                        await _signUpController.signUp(context);
+                      }
                     },
+                    child: const Text('Sign Up'),
                   ),
                 ],
               ),
