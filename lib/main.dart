@@ -1,3 +1,4 @@
+import 'package:chipin_blogpost/features/authentication/views/auth_main_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,6 +12,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'chipIn',
+      home: AuthMainView(),
+    );
   }
 }
