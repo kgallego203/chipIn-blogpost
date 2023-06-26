@@ -1,5 +1,6 @@
 import 'package:chipin_blogpost/features/events/models/event_model.dart';
 import 'package:chipin_blogpost/features/events/views/event_details.dart';
+import 'package:chipin_blogpost/themes.dart/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -16,13 +17,11 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Format the date and time to display in a readable format
     final formattedDate = DateFormat('EEE, MMM d, y').format(event.dateTime);
     final formattedTime = DateFormat('h:mm a').format(event.dateTime);
 
     return GestureDetector(
       onTap: () {
-        // Navigate to the event details screen when the card is tapped
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -33,44 +32,82 @@ class EventCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 8.0),
         decoration: BoxDecoration(
-          color: Colors.transparent, // Updated to a transparent color
+          color: Colors.pink[100], // Updated to a light pink color
           borderRadius: BorderRadius.circular(8.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 1,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Display the event image
-            Image.network(
-              'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80',
-              fit: BoxFit.cover,
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(8.0),
+                topRight: Radius.circular(8.0),
+              ),
+              child: Image.network(
+                'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80',
+                fit: BoxFit.cover,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Display the event title
-                  Text(
-                    event.title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                      color: Colors.black,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        flex: 1,
+                        child: Text(
+                          event.title,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                            color: Colors.black, // Updated text color
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                      ),
+                      if (showJoinButton)
+                        ElevatedButton(
+                          onPressed: onJoinPressed,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Palette.primary100,
+                            textStyle: const TextStyle(
+                              color: Colors.white, // Updated text color
+                              fontSize: 16,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            minimumSize: const Size(100, 48),
+                          ),
+                          child: const Text('Join'),
+                        ),
+                    ],
                   ),
                   const SizedBox(height: 23.0),
                   Row(
                     children: [
                       const Icon(
                         Icons.access_time,
+                        color: Palette.primary100,
                         size: 16.0,
                       ),
                       const SizedBox(width: 4.0),
                       Text(
                         '$formattedDate at $formattedTime',
                         style: const TextStyle(
+                          color: Colors.black87, // Updated text color
                           fontSize: 15.0,
                         ),
                       ),
@@ -81,12 +118,14 @@ class EventCard extends StatelessWidget {
                     children: [
                       const Icon(
                         Icons.location_on,
+                        color: Palette.primary100,
                         size: 16.0,
                       ),
                       const SizedBox(width: 4.0),
                       Text(
                         event.location,
                         style: const TextStyle(
+                          color: Colors.black87, // Updated text color
                           fontSize: 15.0,
                         ),
                       ),
@@ -96,13 +135,15 @@ class EventCard extends StatelessWidget {
                   Row(
                     children: [
                       const Icon(
-                        Icons.account_circle,
+                        Icons.account_circle, // Updated to a creator icon
+                        color: Palette.primary100,
                         size: 16.0,
                       ),
                       const SizedBox(width: 4.0),
                       Text(
                         'Created by ${event.creatorId}',
                         style: const TextStyle(
+                          color: Colors.black87,
                           fontSize: 15.0,
                         ),
                       ),
@@ -110,10 +151,12 @@ class EventCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 16.0),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment
+                        .start, // Aligns the icon and description text to the start
                     children: [
                       const Icon(
                         Icons.description,
+                        color: Palette.primary100,
                         size: 16.0,
                       ),
                       const SizedBox(width: 4.0),
@@ -121,6 +164,7 @@ class EventCard extends StatelessWidget {
                         child: Text(
                           event.description,
                           style: const TextStyle(
+                            color: Colors.black87, // Updated text color
                             fontSize: 15.0,
                           ),
                         ),
@@ -130,11 +174,6 @@ class EventCard extends StatelessWidget {
                 ],
               ),
             ),
-            if (showJoinButton)
-              ElevatedButton(
-                onPressed: onJoinPressed,
-                child: const Text('Join'),
-              ),
           ],
         ),
       ),
