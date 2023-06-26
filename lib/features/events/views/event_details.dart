@@ -2,7 +2,7 @@ import 'package:chipin_blogpost/features/authentication/services/auth_service.da
 import 'package:chipin_blogpost/features/events/models/attendee_model.dart';
 import 'package:chipin_blogpost/features/events/models/event_model.dart';
 import 'package:chipin_blogpost/features/events/services/event_service.dart';
-import 'package:chipin_blogpost/themes.dart/palette.dart';
+import 'package:chipin_blogpost/themes/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
