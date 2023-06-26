@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                 await AuthService.logout();
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                    builder: (context) => const AuthMainView(),
+                    builder: (context) => AuthMainView(),
                   ),
                   (route) => false,
                 );

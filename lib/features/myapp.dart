@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Palette.primary300,
         ),
       ),
-      home: const AuthMainView(),
+      home: AuthMainView(),
     );
   }
 }
