@@ -8,6 +8,7 @@ import 'package:chipin_blogpost/features/events/views/created_events.dart';
 import 'package:chipin_blogpost/features/events/views/join_events.dart';
 import 'package:chipin_blogpost/features/events/views/joined_events.dart';
 import 'package:chipin_blogpost/features/events/widgets/event_card.dart';
+import 'package:chipin_blogpost/themes.dart/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -34,9 +35,7 @@ class HomePageLayout extends StatelessWidget {
               if (snapshot.hasData) {
                 final events = snapshot.data!;
                 if (events.isEmpty) {
-                  return const Center(
-                    child: Text('No events to display'),
-                  );
+                  return const Text('No events to display');
                 }
                 return CarouselSlider.builder(
                   itemCount: events.length,
@@ -97,6 +96,7 @@ class _HomePageState extends State<HomePage> {
             }
           },
         ),
+        backgroundColor: Theme.of(context).primaryColor,
         actions: [
           PopupMenuButton(
             itemBuilder: (BuildContext context) {
@@ -138,15 +138,19 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         currentIndex: _selectedIndex,
+        selectedItemColor: Theme.of(context).primaryColor,
         onTap: _onItemTapped,
       ),
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
+        animatedIconTheme: const IconThemeData(size: 22.0),
+        backgroundColor: Palette.primary100,
         visible: true,
         curve: Curves.bounceIn,
         children: [
           SpeedDialChild(
-            child: const Icon(Icons.add),
+            child: const Icon(Icons.add, color: Colors.white),
+            backgroundColor: Colors.deepOrange,
             onTap: () {
               Navigator.push(
                 context,
@@ -158,9 +162,12 @@ class _HomePageState extends State<HomePage> {
               );
             },
             label: 'Create Event',
+            labelStyle: const TextStyle(fontWeight: FontWeight.w500),
+            labelBackgroundColor: Colors.deepOrangeAccent,
           ),
           SpeedDialChild(
-            child: const Icon(Icons.arrow_upward),
+            child: const Icon(Icons.arrow_upward, color: Colors.white),
+            backgroundColor: Colors.deepPurple,
             onTap: () {
               Navigator.push(
                 context,
@@ -172,6 +179,8 @@ class _HomePageState extends State<HomePage> {
               );
             },
             label: 'Join Events',
+            labelStyle: const TextStyle(fontWeight: FontWeight.w500),
+            labelBackgroundColor: Colors.deepPurpleAccent,
           ),
         ],
       ),
